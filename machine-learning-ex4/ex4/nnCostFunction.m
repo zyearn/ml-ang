@@ -62,6 +62,7 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+ori_X = X;
 X = [ones(m, 1) X];
 X = sigmoid(Theta1 * X');
 X = X';
@@ -80,10 +81,33 @@ J += (lambda / (2 * m)) * (sum(sum(Theta1(:,2:end) .^ 2, 1),2) + sum(sum(Theta2(
 
 % -------------------------------------------------------------
 
+X = ori_X;
+for i=1:m
+    a1 = [1 X(i, :)]';
+    z2 = Theta1 * a1;
+    a2 = [1; sigmoid(z2)];
+    z3 = Theta2 * a2;
+    a3 = sigmoid(z3);
+
+    yy = zeros(num_labels, 1);
+    yy(y(i)) = 1;
+    delta3 = a3 - yy;
+    delta2 = (Theta2' * delta3)(2:end) .* sigmoidGradient(z2);
+    %size(delta2)
+    
+    Theta1_grad += delta2 * a1';
+    Theta2_grad += delta3 * a2';
+end
+
+Theta1_grad /= m;
+Theta2_grad /= m;
+
+% -------------------------------------------------------------
+
+
 % =========================================================================
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
 
 end
