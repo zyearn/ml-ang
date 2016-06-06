@@ -99,6 +99,13 @@ for i=1:m
     Theta2_grad += delta3 * a2';
 end
 
+
+Theta1(:,1) = 0;
+Theta2(:,1) = 0;
+
+Theta1_grad += lambda * Theta1;
+Theta2_grad += lambda * Theta2;
+
 Theta1_grad /= m;
 Theta2_grad /= m;
 
