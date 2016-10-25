@@ -55,12 +55,11 @@ error_val   = zeros(m, 1);
 
 
 for i = 1:m
-    lambda = 0;
     sX = X(1:i, :);
     sy = y(1:i);
-    [theta] = trainLinearReg([ones(size(sX, 1), 1) sX], sy, lambda);
-    error_train(i) = linearRegCostFunction([ones(size(sX, 1), 1) sX], sy, theta, 0);
-    error_val(i) = linearRegCostFunction([ones(size(Xval, 1), 1) Xval], yval, theta, 0);
+    [theta] = trainLinearReg(sX, sy, lambda);
+    error_train(i) = linearRegCostFunction(sX, sy, theta, 0);
+    error_val(i) = linearRegCostFunction(Xval, yval, theta, 0);
 end
 
 % -------------------------------------------------------------
